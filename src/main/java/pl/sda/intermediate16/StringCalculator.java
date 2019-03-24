@@ -3,6 +3,10 @@ package pl.sda.intermediate16;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class StringCalculator {
 
@@ -13,7 +17,10 @@ public class StringCalculator {
         }
 
         if (text.startsWith("//")) {
-            char delimiter = text.charAt(2);
+            Pattern pattern = Pattern.compile("//(.*)\n(.*)");
+            Matcher matcher = pattern.matcher(text);
+            matcher.matches();
+            String delimiter = matcher.group(1);
             String[] splitted = text.split("\n");
             return tokenizeAndSum(splitted[1], String.valueOf(delimiter));
         }
@@ -21,10 +28,22 @@ public class StringCalculator {
     }
 
     private static Integer tokenizeAndSum(String text, String regex) {
-        return Arrays.stream(text.split(regex))
+        List<Integer> integerList = Arrays.stream(text.split(regex))
                 .map(e -> Integer.valueOf(e.trim()))
+                .collect(Collectors.toList());
+
+        List<Integer> negativeValues = integerList.stream()
+                .filter(i -> i < 0)
+                .collect(Collectors.toList());
+
+        if (!negativeValues.isEmpty()) {
+            throw new NegativeNumberFoundException("Tak nie można! " + negativeValues);
+        }
+
+        return integerList.stream()
+                .filter(a -> a <= 1000)
                 .reduce((a, b) -> a + b)
-                .orElseGet(()->superHardLongAndSourcesNeedingMethod());
+                .orElseGet(() -> superHardLongAndSourcesNeedingMethod());
     }
 
     private static Integer superHardLongAndSourcesNeedingMethod() {

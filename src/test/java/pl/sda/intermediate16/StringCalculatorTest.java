@@ -35,18 +35,27 @@ public class StringCalculatorTest {
         Assertions.assertTrue(result.equals(9));
     }
 
-//    @Test
-    void shouldThrowExceptionWhenTextContainsNegativeNumbers() {
-
-        runnable.run();
-
-
-        Assertions.assertThrows(
-                NegativeNumberFoundException.class,
-                ()->StringCalculator.adding("//s\n3s-2s -4"));
+    @Test
+    void shouldReturnSumWhenTextContainsNumbersSeparatedWithCustomLongDelimiter() {
+        Integer result = StringCalculator.adding("//sss\n3sss2sss 4");
+        Assertions.assertTrue(result.equals(9));
     }
 
-    Runnable runnable = () -> System.out.println("OK");
+    @Test
+    void shouldReturnSumIgnoringNumbersBiggerThan1000() {
+        Integer result = StringCalculator.adding("//s\n3s2000s 4");
+        Assertions.assertTrue(result.equals(7));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenTextContainsNegativeNumbers() {
+
+        NegativeNumberFoundException negativeNumberFoundException = Assertions.assertThrows(
+                NegativeNumberFoundException.class,
+                () -> StringCalculator.adding("//s\n3s-2s -4"));
+
+        Assertions.assertEquals("Tak nie można! [-2, -4]",negativeNumberFoundException.getMessage());
+    }
 
 
 
