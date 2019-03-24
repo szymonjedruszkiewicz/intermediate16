@@ -14,7 +14,6 @@ class InMemoryCategoryDAOTest {
         InMemoryCategoryDAO inMemoryCategoryDAO = new InMemoryCategoryDAO();
         List<Category> categoryList = inMemoryCategoryDAO.getCategoryList();
         Assertions.assertEquals(4, pickParentId(categoryList));
-
     }
 
     private Integer pickParentId(List<Category> categoryList) {
