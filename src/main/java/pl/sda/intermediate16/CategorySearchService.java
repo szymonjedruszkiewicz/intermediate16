@@ -26,7 +26,7 @@ public class CategorySearchService {
         }
 
         for (CategoryDTO categoryDTO : categoryDTOList) {
-            if (categoryName.trim().equals(categoryDTO.getCategoryName())) {
+            if (categoryName!=null && categoryName.trim().equals(categoryDTO.getCategoryName())) {
                 categoryDTO.getCategoryState().setOpen(true);
                 categoryDTO.getCategoryState().setSelected(true);
                 openParent(categoryDTO.getParentCat());
