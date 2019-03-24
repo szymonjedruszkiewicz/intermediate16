@@ -19,6 +19,31 @@ class PlaylistTest {
     @Test
     void shouldWorkProperlyWithRandomMode() {
         Playlist playlist = new Playlist(PlayMode.RANDOM);
+        playlist.addToPlaylist(music1);
+        playlist.addToPlaylist(music2);
+        playlist.addToPlaylist(music3);
+        playlist.addToPlaylist(music4);
+        playlist.addToPlaylist(music5);
+        playlist.addToPlaylist(movie1);
+        playlist.addToPlaylist(movie2);
+        playlist.addToPlaylist(movie3);
+        playlist.addToPlaylist(movie4);
+        System.out.println(playlist.play());
+    }
 
+    @Test
+    void shouldWorkProperlyWithRandomModeWithSubPlaylist() {
+        Playlist playlist = new Playlist(PlayMode.RANDOM);
+        playlist.addToPlaylist(music1);
+        playlist.addToPlaylist(music2);
+        playlist.addToPlaylist(music3);
+        playlist.addToPlaylist(movie1);
+        playlist.addToPlaylist(movie2);
+        Playlist subPlaylist = new Playlist(PlayMode.SEQUENTIAL);
+        subPlaylist.addToPlaylist(music4);
+        subPlaylist.addToPlaylist(music5);
+        subPlaylist.addToPlaylist(movie3);
+//        playlist.addToPlaylist(subPlaylist); <- StackOverflowError
+        System.out.println(playlist.play());
     }
 }

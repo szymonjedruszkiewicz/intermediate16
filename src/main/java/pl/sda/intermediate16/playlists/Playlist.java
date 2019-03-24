@@ -41,6 +41,6 @@ public class Playlist extends Playable {
     private String collectTitles(List<Playable> playables) {
         return playables.stream()
                 .map(Playable::play)
-                .collect(Collectors.joining("\\n"));
+                .collect(Collectors.joining("\n"));
     }
 }
