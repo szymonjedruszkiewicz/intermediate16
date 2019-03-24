@@ -17,6 +17,18 @@ public class InMemoryCategoryDAO {
 
     @Getter
     private List<Category> categoryList = new ArrayList<>();
+    private static InMemoryCategoryDAO instance;
+
+    public static InMemoryCategoryDAO getInstance() {
+        if (instance == null) { //1
+            synchronized (InMemoryCategoryDAO.class) { //2
+                if (instance == null) { //3
+                    instance = new InMemoryCategoryDAO();
+                }
+            }
+        }
+        return instance;
+    }
 
     public InMemoryCategoryDAO() {
         initializeCategories();
@@ -79,7 +91,7 @@ public class InMemoryCategoryDAO {
     private void findAndSetParentId(Map<Integer, List<Category>> categoriesMap, int depth, Category c) {
         List<Category> potentialParents = categoriesMap.get(depth - 1);
 
-        Integer parentId = potentialParents==null?null:potentialParents.stream()
+        Integer parentId = potentialParents == null ? null : potentialParents.stream()
                 .map(Category::getId)
                 .filter(id -> id < c.getId())
                 .sorted((a, b) -> b - a)
