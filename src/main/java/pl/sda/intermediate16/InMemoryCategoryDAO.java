@@ -36,9 +36,8 @@ public class InMemoryCategoryDAO {
 
     private List<String> loadCategoriesFromFile() {
         ClassLoader classLoader = this.getClass().getClassLoader();
-        URI uri = null;
         try {
-            uri = classLoader.getResource("kategorie.txt").toURI();
+            URI uri = classLoader.getResource("kategorie.txt").toURI();
             List<String> lines = Files.readAllLines(Paths.get(uri), StandardCharsets.UTF_16LE);
             return lines;
         } catch (IOException | URISyntaxException e) {
@@ -48,13 +47,13 @@ public class InMemoryCategoryDAO {
     }
 
     private void initializeCategories() {
-        List<String> categoriesFromFile = loadCategoriesFromFile();
+        List<String> categoriesFromFile = loadCategoriesFromFile(); //tu odczytujemy plik z dysku
         AtomicInteger counter = new AtomicInteger(1);
-        List<Category> categories = categoriesFromFile.stream()
+        List<Category> categories = categoriesFromFile.stream() //tu zamieniamy napisy z pliku na kategorie
                 .map(s -> {
                     Category category = new Category();
                     category.setCategoryName(s);
-                    category.setId(counter.getAndIncrement());
+                    category.setId(counter.getAndIncrement()); //ustawiamy kolejne id
                     return category;
                 })
                 .collect(Collectors.toList());
@@ -62,9 +61,9 @@ public class InMemoryCategoryDAO {
         Map<Integer, List<Category>> categoriesMap =
                 categories.stream()
                         .collect(Collectors.groupingBy(
-                                c -> calculateDepth(c.getCategoryName())));
+                                c -> calculateDepth(c.getCategoryName()))); //grupujemy kategorie po głębokości zagnieżdżenia (do mapy)
 
-//        for (Category category : categories) {
+//        for (Category category : categories) { alternatywna wersja z pętlami
 //            Integer depth = calculateDepth(category.getCategoryName());
 //            if (categoriesMap.containsKey(depth)) {
 //                categoriesMap.get(depth).add(category);
@@ -74,8 +73,8 @@ public class InMemoryCategoryDAO {
 //                categoriesMap.put(depth,depthCategoryList);
 //            }
 //        }
-        populateParentId(categoriesMap, 0);
-        categoryList = categories;
+        populateParentId(categoriesMap, 0); //rekurencyjnie uzupełniamy parentId kategorii używając do tego mapy i zaczynając od zerowego zagnieżdżenia
+        categoryList = categories; //przypisujemy kategorie do listy w klasie (to jest niejako cache tych kategorii)
     }
 
     private void populateParentId(Map<Integer, List<Category>> categoriesMap, int depth) {
@@ -88,7 +87,7 @@ public class InMemoryCategoryDAO {
 
     }
 
-    private void findAndSetParentId(Map<Integer, List<Category>> categoriesMap, int depth, Category c) {
+    private void findAndSetParentId(Map<Integer, List<Category>> categoriesMap, int depth, Category c) { //Szukamy parentId w mapie (z poziomu wyżej)
         List<Category> potentialParents = categoriesMap.get(depth - 1);
 
         Integer parentId = potentialParents == null ? null : potentialParents.stream()
@@ -100,11 +99,9 @@ public class InMemoryCategoryDAO {
         c.setParentId(parentId);
     }
 
-
-    private Integer calculateDepth(String categoryName) {
+    private Integer calculateDepth(String categoryName) { //na podstawie spacji liczymy zagnieżdżenie kategorii
         return categoryName.startsWith(" ")
                 ? categoryName.split("\\S+")[0].length()
                 : 0;
     }
-
 }

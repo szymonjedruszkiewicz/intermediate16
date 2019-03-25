@@ -13,15 +13,15 @@ public class CategoryDTO {
     private CategoryState categoryState;
     private CategoryDTO parentCat;
 
-    public String getText(){
+    public String getText(){ //biblioteka frontendowa wymaga takiej metody
         return categoryName;
     }
 
-    public String getParent(){
+    public String getParent(){ //biblioteka frontendowa wymaga takiej metody
         return parentId == null ? "#" : parentId.toString();
     }
 
-    public CategoryState getState(){
+    public CategoryState getState(){ //biblioteka frontendowa wymaga takiej metody
         return categoryState;
     }
 

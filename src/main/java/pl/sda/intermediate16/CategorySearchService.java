@@ -9,14 +9,14 @@ public class CategorySearchService {
         List<Category> categoryList = InMemoryCategoryDAO.getInstance().getCategoryList();
         List<CategoryDTO> categoryDTOList = new ArrayList<>();
         for (Category category : categoryList) {
-            categoryDTOList.add(buildCategoryDTO(category));
+            categoryDTOList.add(buildCategoryDTO(category)); //przepisujemy category na categoryDto
         }
 
         for (CategoryDTO categoryDTO : categoryDTOList) {
             if (categoryDTO.getParentId() == null) {
                 continue;
             }
-            //TODO mapa zamiast streama
+            //fixme mapa zamiast streama
             categoryDTO.setParentCat(
                     categoryDTOList.stream()
                             .filter(c -> c.getId().equals(categoryDTO.getParentId()))
@@ -25,8 +25,8 @@ public class CategorySearchService {
             );
         }
 
-        for (CategoryDTO categoryDTO : categoryDTOList) {
-            if (categoryName!=null && categoryName.trim().equals(categoryDTO.getCategoryName())) {
+        for (CategoryDTO categoryDTO : categoryDTOList) { //ustawiamy czy kategoria ma być zaznaczona/rozwinięta
+            if (categoryName!=null && categoryName.trim().equals(categoryDTO.getCategoryName())) { //dodane 'categoryName!=null'
                 categoryDTO.getCategoryState().setOpen(true);
                 categoryDTO.getCategoryState().setSelected(true);
                 openParent(categoryDTO.getParentCat());
@@ -36,7 +36,7 @@ public class CategorySearchService {
         return categoryDTOList;
     }
 
-    private void openParent(CategoryDTO categoryDTO) {
+    private void openParent(CategoryDTO categoryDTO) { //otwieramy wszystkie nadrzędne kategorie
         categoryDTO.getCategoryState().setOpen(true);
         if (categoryDTO.getParentId() == null) {
             return;
