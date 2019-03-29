@@ -1,5 +1,6 @@
 package pl.sda.intermediate16;
 
+import com.google.common.io.Resources;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -35,12 +36,9 @@ public class InMemoryCategoryDAO {
     }
 
     private List<String> loadCategoriesFromFile() {
-        ClassLoader classLoader = this.getClass().getClassLoader();
         try {
-            URI uri = classLoader.getResource("kategorie.txt").toURI();
-            List<String> lines = Files.readAllLines(Paths.get(uri), StandardCharsets.UTF_16LE);
-            return lines;
-        } catch (IOException | URISyntaxException e) {
+            return Resources.readLines(Resources.getResource("kategorie.txt"), Charset.forName("UNICODE"));
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return new ArrayList<>();
