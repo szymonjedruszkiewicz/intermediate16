@@ -14,7 +14,7 @@ public class OnlyOneController { //ta klasa pozwala kontaktować się przegląda
     @ResponseBody
     @RequestMapping("/")
     public String ok (){
-        return "OK";
+        return "OK:*";
     }
 
     @RequestMapping("/categories") //pod takim urlem dostępna jest strona z kategoriami
