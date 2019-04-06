@@ -1,4 +1,4 @@
-package pl.sda.intermediate16;
+package pl.sda.intermediate16.calculator;
 
 import org.apache.commons.lang3.StringUtils;
 

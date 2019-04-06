@@ -2,6 +2,8 @@ package pl.sda.intermediate16;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import pl.sda.intermediate16.calculator.NegativeNumberFoundException;
+import pl.sda.intermediate16.calculator.StringCalculator;
 
 public class StringCalculatorTest {
 
