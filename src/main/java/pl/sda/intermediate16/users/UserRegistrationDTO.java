@@ -3,7 +3,7 @@ package pl.sda.intermediate16.users;
 import lombok.Data;
 
 @Data
-public class UserRegistrationDTO {
+public class UserRegistrationDTO { //DATA TRANSFER OBJECT - słuzy do przesylania danych
     private String firstName;
     private String lastName;
     private String eMail;
@@ -15,4 +15,5 @@ public class UserRegistrationDTO {
     private String country;
     private String street;
     private String zipCode;
+    private boolean preferEmails;
 }
