@@ -58,4 +58,19 @@ public class OnlyOneController { //ta klasa pozwala kontaktować się przegląda
         return "registerEffect";
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String showLoginForm(Model model) {
+        model.addAttribute("form", new UserLoginDTO());
+        return "loginForm";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(UserLoginDTO dto, Model model) {
+        UserLoginService usl = new UserLoginService();
+        if (usl.login(dto)){
+            UserContextHolder.logUserIn(dto);
+        }
+            return "categories";
+    }
+
 }
