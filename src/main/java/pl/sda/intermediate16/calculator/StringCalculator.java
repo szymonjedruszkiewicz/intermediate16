@@ -20,9 +20,13 @@ public class StringCalculator {
             Pattern pattern = Pattern.compile("//(.*)\n(.*)");
             Matcher matcher = pattern.matcher(text);
             matcher.matches();
-            String delimiter = matcher.group(1);
+            String delimiters = matcher.group(1);
+            delimiters = delimiters
+                    .replaceAll("[\\[|\\]]+", " ")
+                    .trim()
+                    .replaceAll("\\s", "|");
             String[] splitted = text.split("\n");
-            return tokenizeAndSum(splitted[1], String.valueOf(delimiter));
+            return tokenizeAndSum(splitted[1], delimiters);
         }
         return tokenizeAndSum(text, ",|\n");
     }

@@ -60,5 +60,10 @@ public class StringCalculatorTest {
     }
 
 
+    @Test
+    void shouldReturnSumWithManyCustomDelimiters() {
+        Integer result = StringCalculator.adding("//[xxx][yyy][kk]\n3xxx2000yyy 4kk83");
+        Assertions.assertTrue(result.equals(90));
+    }
 
 }
