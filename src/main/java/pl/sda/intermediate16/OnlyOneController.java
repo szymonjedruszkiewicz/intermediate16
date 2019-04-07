@@ -13,8 +13,11 @@ import java.util.Map;
 @Controller
 public class OnlyOneController { //ta klasa pozwala kontaktować się przeglądarce z naszą aplikacją
 
+    UserDAO userDAO = new UserDAO();
+    UserLoginService usl = new UserLoginService(userDAO);
     CategorySearchService categorySearchService = new CategorySearchService();
-
+    UserValidationService userValidationService = new UserValidationService();
+    UserRegistrationService userRegistrationService = new UserRegistrationService(userDAO);
 
     @ResponseBody
     @RequestMapping("/")
@@ -39,12 +42,10 @@ public class OnlyOneController { //ta klasa pozwala kontaktować się przegląda
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     //ta metoda (POST) obsluguje wyslanie danych z frontu
     public String retrieveRegisterForm(UserRegistrationDTO userRegistrationDTO, Model model) {
-        UserValidationService userValidationService = new UserValidationService();
         Map<String, String> errorMap = userValidationService.validate(userRegistrationDTO);
         model.addAttribute("form", userRegistrationDTO);
         model.addAttribute("countries", Countries.values());
         if (errorMap.isEmpty()) {
-            UserRegistrationService userRegistrationService = new UserRegistrationService();
             try {
                 userRegistrationService.register(userRegistrationDTO);
             } catch (UserExistsException e) {
@@ -66,11 +67,10 @@ public class OnlyOneController { //ta klasa pozwala kontaktować się przegląda
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(UserLoginDTO dto, Model model) {
-        UserLoginService usl = new UserLoginService();
-        if (usl.login(dto)){
+        if (usl.login(dto)) {
             UserContextHolder.logUserIn(dto);
         }
-            return "categories";
+        return "";
     }
 
 }
