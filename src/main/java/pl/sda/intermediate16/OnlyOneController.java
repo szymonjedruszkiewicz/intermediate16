@@ -19,10 +19,9 @@ public class OnlyOneController { //ta klasa pozwala kontaktować się przegląda
     UserValidationService userValidationService = new UserValidationService();
     UserRegistrationService userRegistrationService = new UserRegistrationService(userDAO);
 
-    @ResponseBody
     @RequestMapping("/")
     public String ok() {
-        return "OK";
+        return "index";
     }
 
     //adnotacja
