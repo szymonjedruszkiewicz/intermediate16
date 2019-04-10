@@ -69,7 +69,7 @@ public class OnlyOneController { //ta klasa pozwala kontaktować się przegląda
         if (usl.login(dto)) {
             UserContextHolder.logUserIn(dto);
         }
-        return "";
+        return "index";
     }
 
 }
