@@ -135,7 +135,6 @@ public class CollectionComparisonUtilTest {
 
     @Getter
     @Setter
-    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     private class UserForTests {
